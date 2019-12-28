@@ -4,6 +4,7 @@ using System.ComponentModel;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using BindingSample.ViewModels;
 using Xamarin.Forms;
 
 namespace BindingSample.Views
@@ -13,9 +14,24 @@ namespace BindingSample.Views
     [DesignTimeVisible(false)]
     public partial class MainPage : ContentPage
     {
+        private MainPageViewModel Vm { get => this.BindingContext as MainPageViewModel; }
+
         public MainPage()
         {
             InitializeComponent();
+        }
+
+        private void OnEmployeeTextChanged(object sender, TextChangedEventArgs args)
+        {
+            string input = args.NewTextValue;
+            if( input.Length == (int)Resources["EMPLOYEE_NO_LENGTH"])
+            {
+                Vm.SetEmployeeNo(input);
+            }
+            else
+            {
+                Vm.SetEmployeeNo(null);
+            }
         }
     }
 }

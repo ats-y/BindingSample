@@ -1,0 +1,20 @@
+﻿<?xml version="1.0" encoding="UTF-8"?>
+<ContentView
+    xmlns="http://xamarin.com/schemas/2014/forms"
+    xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+    x:Class="BindingSample.Views.EmployeeView">
+    <ContentView.Content>
+        <Frame
+            BorderColor="Green"
+            CornerRadius="10"
+            HasShadow="False">
+            <StackLayout>
+                <Label
+                    Text="{Binding DisplayName}" />
+                <Label
+                    Text="{Binding DisplaySex}"
+                    TextColor="{Binding SexColor}"/>
+            </StackLayout>
+        </Frame>
+    </ContentView.Content>
+</ContentView>
