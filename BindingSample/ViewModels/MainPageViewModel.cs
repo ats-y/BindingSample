@@ -11,21 +11,7 @@ namespace BindingSample.ViewModels
     {
         public ReactiveProperty<EmployeeViewModel> CheckedEmployee { get; set; } = new ReactiveProperty<EmployeeViewModel>();
 
-        protected List<Employee> Employees = new List<Employee>
-        {
-            new Employee {
-                Id = "0001",
-                FamilyName = "社員",
-                GivenName = "太郎",
-                Sex = Employee.ESex.Male,
-            },
-            new Employee {
-                Id = "0002",
-                FamilyName = "従業員",
-                GivenName = "一美",
-                Sex = Employee.ESex.Female,
-            },
-        };
+        public ObservableCollection<GoOutViewModel> CheckedGoOuts { get; set; } = new ObservableCollection<GoOutViewModel>();
 
         public MainPageViewModel()
         {
@@ -34,97 +20,42 @@ namespace BindingSample.ViewModels
 
         public void SetEmployeeNo(string input)
         {
-            if (string.IsNullOrEmpty(input))
+            // ひとまず保持データを消去する。
+            CheckedEmployee.Value = null;
+            CheckedGoOuts.Clear();
+
+            // データを取得する。
+            GoOutController ctrl = new GoOutController();
+            GoOutController.Result result = ctrl.Get(input);
+            if(result == null)
             {
-                CheckedEmployee.Value = null;
                 return;
             }
 
-            Employee emp = Employees.Find(x => x.Id == input);
-            if (emp == null)
+            // 社員データを表示するViewModelを生成する。
+            CheckedEmployee.Value = new EmployeeViewModel
             {
-                CheckedEmployee.Value = null;
-                return;
-            }
-
-            EmployeeViewModel empVm = new EmployeeViewModel
-            {
-                Employee = emp,
+                Employee = result.Employee,
             };
-            CheckedEmployee.Value = empVm;
-        }
 
-        public ObservableCollection<GoOutViewModel> GoOuts { get; set; } = new ObservableCollection<GoOutViewModel>
-        {
-            new GoOutViewModel
+            // 一覧を表示するViewModelを生成する。
+            foreach(Team team in result.Teams)
             {
-                Title = "1st",
-                Details = new ObservableCollection<GoOutDetaiViewModel>
+                GoOutViewModel goOutVm = new GoOutViewModel
                 {
-                    new GoOutDetaiViewModel(
-                        new GoOut
-                        {
-                            EventTime = new DateTime(2019,12,1,12,0,0),
-                            Content = "たいとる-ひとつめ",
-                            Comment = $"コメント{Environment.NewLine}改行。長い行あいうえおかきくけこさしすせそたちつてとなにぬねのはひふへほまみむめやゆよらりるれろ",
-                        }),
-                    new GoOutDetaiViewModel(
-                        new GoOut
-                        {
-                            EventTime = new DateTime(2019,12,2,13,15,0),
-                            Content = "たいとる-ふたつめ",
-                            Status = GoOut.EStatus.OnHold,
-                        }),
-                    new GoOutDetaiViewModel(
-                        new GoOut
-                        {
-                            EventTime = new DateTime(2019,12,2,14,15,0),
-                            Content = "たいとる-3つめ",
-                        }),
-                }
-            },
-            new GoOutViewModel
-            {
-                Title = "2nd",
-                Details = new ObservableCollection<GoOutDetaiViewModel>
+                    Title = team.Name,
+                    Details = new ObservableCollection<GoOutDetaiViewModel>(),
+                };
+
+                ObservableCollection<GoOutDetaiViewModel> detailVm = new ObservableCollection<GoOutDetaiViewModel>();
+                foreach(GoOut goOut in team.GoOuts)
                 {
-                    new GoOutDetaiViewModel(
-                        new GoOut
-                        {
-                            EventTime = new DateTime(2019,12,31,23,59,0),
-                            Content = "たいとる-ひとつめ",
-                            Comment = $"コメント{Environment.NewLine}改行。長い行あいうえおかきくけこさしすせそたちつてとなにぬねのはひふへほまみむめやゆよらりるれろ",
-                        }),
+                    detailVm.Add(new GoOutDetaiViewModel(goOut));
                 }
-            },
-            new GoOutViewModel
-            {
-                Title = "3rd",
-                Details = new ObservableCollection<GoOutDetaiViewModel>
-                {
-                    new GoOutDetaiViewModel(
-                        new GoOut
-                        {
-                            EventTime = new DateTime(2019,12,31,23,59,0),
-                            Content = "たいとる-ひとつめ",
-                            Comment = $"コメント{Environment.NewLine}改行。長い行あいうえおかきくけこさしすせそたちつてとなにぬねのはひふへほまみむめやゆよらりるれろ",
-                        }),
-                }
-            },
-            new GoOutViewModel
-            {
-                Title = "4th",
-                Details = new ObservableCollection<GoOutDetaiViewModel>
-                {
-                    new GoOutDetaiViewModel(
-                        new GoOut
-                        {
-                            EventTime = new DateTime(2019,12,31,23,59,0),
-                            Content = "たいとる-ひとつめ",
-                            Comment = $"コメント{Environment.NewLine}改行。長い行あいうえおかきくけこさしすせそたちつてとなにぬねのはひふへほまみむめやゆよらりるれろ",
-                        }),
-                }
+                goOutVm.Details = detailVm;
+
+                CheckedGoOuts.Add(goOutVm);
             }
-        };
+        }
     }
 }
