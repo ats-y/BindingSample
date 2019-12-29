@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Collections.ObjectModel;
 using BindingSample.Models;
 using Prism.Mvvm;
 using Reactive.Bindings;
@@ -31,7 +32,7 @@ namespace BindingSample.ViewModels
 
         }
 
-        internal void SetEmployeeNo(string input)
+        public void SetEmployeeNo(string input)
         {
             if (string.IsNullOrEmpty(input))
             {
@@ -40,7 +41,7 @@ namespace BindingSample.ViewModels
             }
 
             Employee emp = Employees.Find(x => x.Id == input);
-            if(emp == null)
+            if (emp == null)
             {
                 CheckedEmployee.Value = null;
                 return;
@@ -52,5 +53,78 @@ namespace BindingSample.ViewModels
             };
             CheckedEmployee.Value = empVm;
         }
+
+        public ObservableCollection<GoOutViewModel> GoOuts { get; set; } = new ObservableCollection<GoOutViewModel>
+        {
+            new GoOutViewModel
+            {
+                Title = "1st",
+                Details = new ObservableCollection<GoOutDetaiViewModel>
+                {
+                    new GoOutDetaiViewModel(
+                        new GoOut
+                        {
+                            EventTime = new DateTime(2019,12,1,12,0,0),
+                            Content = "たいとる-ひとつめ",
+                            Comment = $"コメント{Environment.NewLine}改行。長い行あいうえおかきくけこさしすせそたちつてとなにぬねのはひふへほまみむめやゆよらりるれろ",
+                        }),
+                    new GoOutDetaiViewModel(
+                        new GoOut
+                        {
+                            EventTime = new DateTime(2019,12,2,13,15,0),
+                            Content = "たいとる-ふたつめ",
+                            Status = GoOut.EStatus.OnHold,
+                        }),
+                    new GoOutDetaiViewModel(
+                        new GoOut
+                        {
+                            EventTime = new DateTime(2019,12,2,14,15,0),
+                            Content = "たいとる-3つめ",
+                        }),
+                }
+            },
+            new GoOutViewModel
+            {
+                Title = "2nd",
+                Details = new ObservableCollection<GoOutDetaiViewModel>
+                {
+                    new GoOutDetaiViewModel(
+                        new GoOut
+                        {
+                            EventTime = new DateTime(2019,12,31,23,59,0),
+                            Content = "たいとる-ひとつめ",
+                            Comment = $"コメント{Environment.NewLine}改行。長い行あいうえおかきくけこさしすせそたちつてとなにぬねのはひふへほまみむめやゆよらりるれろ",
+                        }),
+                }
+            },
+            new GoOutViewModel
+            {
+                Title = "3rd",
+                Details = new ObservableCollection<GoOutDetaiViewModel>
+                {
+                    new GoOutDetaiViewModel(
+                        new GoOut
+                        {
+                            EventTime = new DateTime(2019,12,31,23,59,0),
+                            Content = "たいとる-ひとつめ",
+                            Comment = $"コメント{Environment.NewLine}改行。長い行あいうえおかきくけこさしすせそたちつてとなにぬねのはひふへほまみむめやゆよらりるれろ",
+                        }),
+                }
+            },
+            new GoOutViewModel
+            {
+                Title = "4th",
+                Details = new ObservableCollection<GoOutDetaiViewModel>
+                {
+                    new GoOutDetaiViewModel(
+                        new GoOut
+                        {
+                            EventTime = new DateTime(2019,12,31,23,59,0),
+                            Content = "たいとる-ひとつめ",
+                            Comment = $"コメント{Environment.NewLine}改行。長い行あいうえおかきくけこさしすせそたちつてとなにぬねのはひふへほまみむめやゆよらりるれろ",
+                        }),
+                }
+            }
+        };
     }
 }

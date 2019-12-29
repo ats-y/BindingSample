@@ -10,7 +10,8 @@
     x:Class="BindingSample.Views.MainPage">
 
     <ContentPage.Resources>
-        <sys:Int32 x:Key="EMPLOYEE_NO_LENGTH">4</sys:Int32>
+        <sys:Int32
+            x:Key="EMPLOYEE_NO_LENGTH">4</sys:Int32>
     </ContentPage.Resources>
 
     <StackLayout
@@ -19,12 +20,15 @@
         <Entry
             Placeholder="社員番号を入力してください"
             MaxLength="{StaticResource EMPLOYEE_NO_LENGTH}"
-            TextChanged="OnEmployeeTextChanged"/>
+            TextChanged="OnEmployeeTextChanged" />
 
         <views:EmployeeView
             x:Name="EmployeeDispArea"
-            BindingContext="{Binding CheckedEmployee.Value}"
-            />
+            BindingContext="{Binding CheckedEmployee.Value}" />
+
+        <ScrollView>
+            <views:GoOutListView />
+        </ScrollView>
 
         <Label
             Text="Welcome to Xamarin.Forms!"
