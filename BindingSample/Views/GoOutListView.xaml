@@ -3,7 +3,30 @@
     xmlns="http://xamarin.com/schemas/2014/forms"
     xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
     xmlns:views="clr-namespace:BindingSample.Views"
+    xmlns:selectors="clr-namespace:BindingSample.Selectors"
+    xmlns:local="clr-namespace:BindingSample"
+    xmlns:models="clr-namespace:BindingSample.Models"
     x:Class="BindingSample.Views.GoOutListView">
+
+    <ContentView.Resources>
+        <ResourceDictionary>
+
+            <DataTemplate x:Key="multipleTemplate">
+                <views:GoOutView/>
+            </DataTemplate>
+
+            <DataTemplate x:Key="singleTemplate">
+                <views:GoOutSingleView/>
+            </DataTemplate>
+
+            <local:GoOutTemplateSelector
+                x:Key="goOutTemplateSelector"
+                SingleTemplate="{StaticResource singleTemplate}"
+                MultipleTemplate="{StaticResource multipleTemplate}"/>
+
+        </ResourceDictionary>
+    </ContentView.Resources>
+
     <ContentView.Content>
 
         <StackLayout>
@@ -11,12 +34,8 @@
                 Text="行き先履歴" />
             <StackLayout
                 Orientation="Vertical"
+                BindableLayout.ItemTemplateSelector="{StaticResource goOutTemplateSelector}"
                 BindableLayout.ItemsSource="{Binding CheckedGoOuts}">
-                <BindableLayout.ItemTemplate>
-                    <DataTemplate>
-                        <views:GoOutView/>
-                    </DataTemplate>
-                </BindableLayout.ItemTemplate>
             </StackLayout>
         </StackLayout>
 

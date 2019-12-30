@@ -95,7 +95,7 @@ namespace BindingSample.Models
                 {
                     new GoOut
                     {
-                        EventTime = new DateTime(2019,12,31,23,59,0),
+                        EventTime = new DateTime(2020,1,1,0,0,0),
                         Content = "たいとる-ひとつめ",
                         Comment = $"コメント{Environment.NewLine}改行。長い行あいうえおかきくけこさしすせそたちつてとなにぬねのはひふへほまみむめやゆよらりるれろ",
                     },
@@ -109,7 +109,7 @@ namespace BindingSample.Models
                 {
                     new GoOut
                     {
-                        EventTime = new DateTime(2019,12,31,23,59,0),
+                        EventTime = new DateTime(2020,1,8,9,00,0),
                         Content = "たいとる-ひとつめ",
                         Comment = $"コメント{Environment.NewLine}改行。長い行あいうえおかきくけこさしすせそたちつてとなにぬねのはひふへほまみむめやゆよらりるれろ",
                     },

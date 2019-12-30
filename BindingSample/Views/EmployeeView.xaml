@@ -6,7 +6,6 @@
     <ContentView.Content>
         <Frame
             BorderColor="Green"
-            CornerRadius="10"
             HasShadow="False">
             <StackLayout>
                 <Label
