@@ -22,12 +22,11 @@
             MaxLength="{StaticResource EMPLOYEE_NO_LENGTH}"
             TextChanged="OnEmployeeTextChanged" />
 
-        <views:EmployeeView
-            x:Name="EmployeeDispArea"
-            BindingContext="{Binding CheckedEmployee.Value}" />
+        <views:DepartmentView
+            BindingContext="{Binding CheckedDepartment.Value}"/>
 
         <ScrollView>
-            <views:GoOutListView />
+            <views:TeamListView />
         </ScrollView>
 
         <Label

@@ -42,7 +42,7 @@ namespace BindingSample.ViewModels
                     case Employee.ESex.Male:
                         return Color.Blue;
                     case Employee.ESex.Female:
-                        return Color.Pink;
+                        return Color.DarkRed;
                 }
                 return Color.Black;
             }

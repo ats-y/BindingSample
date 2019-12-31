@@ -10,12 +10,5 @@ namespace BindingSample.Views
         {
             InitializeComponent();
         }
-
-        protected override void OnBindingContextChanged()
-        {
-            base.OnBindingContextChanged();
-
-            IsVisible = (BindingContext != null);
-        }
     }
 }

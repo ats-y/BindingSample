@@ -1,0 +1,60 @@
+﻿<?xml version="1.0" encoding="UTF-8"?>
+<ContentView
+    xmlns="http://xamarin.com/schemas/2014/forms"
+    xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+    xmlns:views="clr-namespace:BindingSample.Views"
+    x:Class="BindingSample.Views.TeamSingleView">
+    <ContentView.Content>
+
+        <Frame
+            BorderColor="Black"
+            BackgroundColor="{Binding EmployeeSafetyVms[0].BackgroundColor.Value}"
+            HasShadow="False"
+            Padding="10,10,10,10">
+
+            <Frame.GestureRecognizers>
+                <TapGestureRecognizer
+                    Command="{Binding EmployeeSafetyVms[0].DetailTapCommand}" />
+            </Frame.GestureRecognizers>
+
+            <StackLayout>
+
+                <Label
+                    Text="{Binding Title}" />
+                <BoxView
+                    HeightRequest="5"
+                    BackgroundColor="LightGray" />
+
+                <StackLayout>
+                    <Label
+                        Text="{Binding EmployeeSafetyVms[0].EventTime,
+                                                StringFormat='{0:yyyy/MM/dd hh:mm}'}" />
+
+                    <views:EmployeeView
+                        BindingContext="{Binding EmployeeSafetyVms[0].EmployeeVm}" />
+
+                    <Label
+                        Text="{Binding EmployeeSafetyVms[0].Content}" />
+                    <Label
+                        FontSize="Micro"
+                        Text="リアクティブじゃないので変化しない。" />
+
+                    <Label
+                        Text="{Binding EmployeeSafetyVms[0].SafetyStatus.Value}" />
+                    <Label
+                        FontSize="Micro"
+                        Text="リアクティブなので変化する。" />
+
+                    <Label
+                        Text="{Binding EmployeeSafetyVms[0].CanWork}" />
+
+                    <Label
+                        FontSize="Small"
+                        Text="{Binding EmployeeSafetyVms[0].Comment}" />
+                </StackLayout>
+
+            </StackLayout>
+        </Frame>
+
+    </ContentView.Content>
+</ContentView>

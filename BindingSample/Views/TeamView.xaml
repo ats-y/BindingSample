@@ -2,8 +2,8 @@
 <ContentView
     xmlns="http://xamarin.com/schemas/2014/forms"
     xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
-    x:Class="BindingSample.Views.GoOutView">
-
+    xmlns:views="clr-namespace:BindingSample.Views"
+    x:Class="BindingSample.Views.TeamView">
     <ContentView.Content>
 
         <Frame
@@ -18,9 +18,10 @@
                 <BoxView
                     HeightRequest="5"
                     BackgroundColor="LightGray" />
+
                 <StackLayout
                     Orientation="Vertical"
-                    BindableLayout.ItemsSource="{Binding Details}">
+                    BindableLayout.ItemsSource="{Binding EmployeeSafetyVms}">
                     <BindableLayout.ItemTemplate>
                         <DataTemplate>
 
@@ -30,18 +31,34 @@
                                 HasShadow="False"
                                 Padding="10,10,10,10">
 
+                                <Frame.GestureRecognizers>
+                                    <TapGestureRecognizer
+                                        Command="{Binding DetailTapCommand}" />
+                                </Frame.GestureRecognizers>
+
                                 <StackLayout>
-
-                                    <StackLayout.GestureRecognizers>
-                                        <TapGestureRecognizer
-                                            Command="{Binding DetailTapCommand}" />
-                                    </StackLayout.GestureRecognizers>
-
                                     <Label
                                         Text="{Binding EventTime,
                                                    StringFormat='{0:yyyy/MM/dd hh:mm}'}" />
+
+                                    <views:EmployeeView
+                                        BindingContext="{Binding EmployeeVm}" />
+
                                     <Label
                                         Text="{Binding Content}" />
+                                    <Label
+                                        FontSize="Micro"
+                                        Text="リアクティブじゃないので変化しない。" />
+
+                                    <Label
+                                        Text="{Binding SafetyStatus.Value}" />
+                                    <Label
+                                        FontSize="Micro"
+                                        Text="リアクティブなので変化する。" />
+
+                                    <Label
+                                        Text="{Binding CanWork}" />
+
                                     <Label
                                         FontSize="Small"
                                         Text="{Binding Comment}" />

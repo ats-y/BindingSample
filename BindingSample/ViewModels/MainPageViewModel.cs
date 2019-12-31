@@ -9,52 +9,51 @@ namespace BindingSample.ViewModels
 {
     public class MainPageViewModel : BindableBase
     {
-        public ReactiveProperty<EmployeeViewModel> CheckedEmployee { get; set; } = new ReactiveProperty<EmployeeViewModel>();
-
-        public ObservableCollection<GoOutViewModel> CheckedGoOuts { get; set; } = new ObservableCollection<GoOutViewModel>();
+        public ReactiveProperty<DepartmentViewModel> CheckedDepartment { get; set; } = new ReactiveProperty<DepartmentViewModel>();
+        public ObservableCollection<TeamViewModel> CheckedTeams { get; set; } = new ObservableCollection<TeamViewModel>();
 
         public MainPageViewModel()
         {
-
+            CheckedDepartment.Value = null;
         }
 
         public void SetEmployeeNo(string input)
         {
             // ひとまず保持データを消去する。
-            CheckedEmployee.Value = null;
-            CheckedGoOuts.Clear();
+            CheckedDepartment.Value = null;
+            CheckedTeams.Clear();
 
             // データを取得する。
-            GoOutController ctrl = new GoOutController();
-            GoOutController.Result result = ctrl.Get(input);
-            if(result == null)
+            DepartmentController ctrl = new DepartmentController();
+            Department dept = ctrl.Get(input);
+            if (dept == null)
             {
                 return;
             }
 
-            // 社員データを表示するViewModelを生成する。
-            CheckedEmployee.Value = new EmployeeViewModel
+            // 部署名を表示する。
+            CheckedDepartment.Value = new DepartmentViewModel
             {
-                Employee = result.Employee,
+                Department = dept,
             };
 
             // 一覧を表示するViewModelを生成する。
-            foreach(Team team in result.Teams)
+            foreach(Team team in dept.Teams)
             {
-                GoOutViewModel goOutVm = new GoOutViewModel
+                TeamViewModel teamVm = new TeamViewModel
                 {
-                    Title = team.Name,
-                    Details = new ObservableCollection<GoOutDetaiViewModel>(),
+                    Team = team,
+                    EmployeeSafetyVms = new ObservableCollection<EmployeeSafetyViewModel>(),
                 };
 
-                ObservableCollection<GoOutDetaiViewModel> detailVm = new ObservableCollection<GoOutDetaiViewModel>();
-                foreach(GoOut goOut in team.GoOuts)
+                ObservableCollection<EmployeeSafetyViewModel> detailVm = new ObservableCollection<EmployeeSafetyViewModel>();
+                foreach(Employee emp in team.Employees)
                 {
-                    detailVm.Add(new GoOutDetaiViewModel(goOut));
+                    detailVm.Add(new EmployeeSafetyViewModel(emp));
                 }
-                goOutVm.Details = detailVm;
+                teamVm.EmployeeSafetyVms = detailVm;
 
-                CheckedGoOuts.Add(goOutVm);
+                CheckedTeams.Add(teamVm);
             }
         }
     }

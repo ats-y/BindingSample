@@ -7,7 +7,7 @@ namespace BindingSample.Models
     {
         public string Id { get; set; }
         public string Name { get; set; }
-        public List<GoOut> GoOuts { get; set; }
+        public List<Employee> Employees { get; set; }
 
         public Team()
         {

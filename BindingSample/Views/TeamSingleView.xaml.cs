@@ -4,9 +4,9 @@ using Xamarin.Forms;
 
 namespace BindingSample.Views
 {
-    public partial class GoOutView : ContentView
+    public partial class TeamSingleView : ContentView
     {
-        public GoOutView()
+        public TeamSingleView()
         {
             InitializeComponent();
         }

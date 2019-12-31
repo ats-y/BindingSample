@@ -2,19 +2,19 @@
 <ContentView
     xmlns="http://xamarin.com/schemas/2014/forms"
     xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
-    x:Class="BindingSample.Views.EmployeeView">
+    x:Class="BindingSample.Views.DepartmentView">
     <ContentView.Content>
+
         <Frame
-            BorderColor="{Binding SexColor}"
-            BackgroundColor="Transparent"
+            BorderColor="Green"
             HasShadow="False">
             <StackLayout>
                 <Label
                     Text="{Binding DisplayName}" />
                 <Label
-                    Text="{Binding DisplaySex}"
-                    TextColor="{Binding SexColor}"/>
+                    Text="{Binding DisplayKind}" />
             </StackLayout>
         </Frame>
+
     </ContentView.Content>
 </ContentView>

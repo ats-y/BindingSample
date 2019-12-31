@@ -3,24 +3,22 @@
     xmlns="http://xamarin.com/schemas/2014/forms"
     xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
     xmlns:views="clr-namespace:BindingSample.Views"
-    xmlns:selectors="clr-namespace:BindingSample.Selectors"
     xmlns:local="clr-namespace:BindingSample"
-    xmlns:models="clr-namespace:BindingSample.Models"
-    x:Class="BindingSample.Views.GoOutListView">
+    x:Class="BindingSample.Views.TeamListView">
 
     <ContentView.Resources>
         <ResourceDictionary>
 
             <DataTemplate x:Key="multipleTemplate">
-                <views:GoOutView/>
+                <views:TeamView/>
             </DataTemplate>
 
             <DataTemplate x:Key="singleTemplate">
-                <views:GoOutSingleView/>
+                <views:TeamSingleView/>
             </DataTemplate>
 
-            <local:GoOutTemplateSelector
-                x:Key="goOutTemplateSelector"
+            <local:TeanTemplateSelector
+                x:Key="teamTemplateSelector"
                 SingleTemplate="{StaticResource singleTemplate}"
                 MultipleTemplate="{StaticResource multipleTemplate}"/>
 
@@ -31,11 +29,11 @@
 
         <StackLayout>
             <Label
-                Text="行き先履歴" />
+                Text="チーム一覧" />
             <StackLayout
                 Orientation="Vertical"
-                BindableLayout.ItemTemplateSelector="{StaticResource goOutTemplateSelector}"
-                BindableLayout.ItemsSource="{Binding CheckedGoOuts}">
+                BindableLayout.ItemTemplateSelector="{StaticResource teamTemplateSelector}"
+                BindableLayout.ItemsSource="{Binding CheckedTeams}">
             </StackLayout>
         </StackLayout>
 

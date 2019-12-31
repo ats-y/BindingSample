@@ -1,4 +1,6 @@
 ﻿using System;
+using System.Collections.Generic;
+
 namespace BindingSample.Models
 {
     public class Employee
@@ -7,6 +9,7 @@ namespace BindingSample.Models
         public string FamilyName { get; set; }
         public string GivenName { get; set; }
         public ESex Sex { get; set; }
+        public Safety Safety { get; set; }
 
         public enum ESex
         {

@@ -17,4 +17,15 @@
     <Folder Include="Models\" />
     <Folder Include="Selectors\" />
   </ItemGroup>
+  <ItemGroup>
+    <Compile Remove="Views\_TeamListView.xaml.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Update="Views\TeamListView.xaml.cs">
+      <DependentUpon>TeamListView.xaml</DependentUpon>
+    </Compile>
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Remove="Views\_TeamListView.xaml" />
+  </ItemGroup>
 </Project>
