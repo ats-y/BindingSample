@@ -14,7 +14,7 @@
 
             <Frame.GestureRecognizers>
                 <TapGestureRecognizer
-                    Command="{Binding EmployeeSafetyVms[0].DetailTapCommand}" />
+                    Command="{Binding EmployeeSafetyVms[0].ChangeStatusCommand}" />
             </Frame.GestureRecognizers>
 
             <StackLayout>

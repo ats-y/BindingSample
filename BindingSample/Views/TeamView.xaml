@@ -33,7 +33,7 @@
 
                                 <Frame.GestureRecognizers>
                                     <TapGestureRecognizer
-                                        Command="{Binding DetailTapCommand}" />
+                                        Command="{Binding ChangeStatusCommand}" />
                                 </Frame.GestureRecognizers>
 
                                 <StackLayout>

@@ -1,9 +1,12 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Collections.ObjectModel;
+using System.ComponentModel;
+using System.Windows.Input;
 using BindingSample.Models;
 using Prism.Mvvm;
+using Prism.Services;
 using Reactive.Bindings;
+using Xamarin.Forms;
 
 namespace BindingSample.ViewModels
 {
@@ -12,16 +15,34 @@ namespace BindingSample.ViewModels
         public ReactiveProperty<DepartmentViewModel> CheckedDepartment { get; set; } = new ReactiveProperty<DepartmentViewModel>();
         public ObservableCollection<TeamViewModel> CheckedTeams { get; set; } = new ObservableCollection<TeamViewModel>();
 
-        public MainPageViewModel()
+        public ICommand RegisterCommand { get; private set; }
+
+        public MainPageViewModel(IPageDialogService dialogService)
         {
             CheckedDepartment.Value = null;
+
+            // 登録コマンドの実装。
+            RegisterCommand = new Command(
+                execute: async () =>
+                {
+                    await dialogService.DisplayAlertAsync("たいとる", "きた", "OK");
+                },
+                canExecute: () =>
+                {
+                    return IsRegistable();
+                });
+
+            CheckedDepartment.Subscribe(x =>
+            {
+                ((Command)RegisterCommand).ChangeCanExecute();
+            });
+
         }
 
         public void SetEmployeeNo(string input)
         {
             // ひとまず保持データを消去する。
-            CheckedDepartment.Value = null;
-            CheckedTeams.Clear();
+            Clear();
 
             // データを取得する。
             DepartmentController ctrl = new DepartmentController();
@@ -38,7 +59,7 @@ namespace BindingSample.ViewModels
             };
 
             // 一覧を表示するViewModelを生成する。
-            foreach(Team team in dept.Teams)
+            foreach (Team team in dept.Teams)
             {
                 TeamViewModel teamVm = new TeamViewModel
                 {
@@ -47,14 +68,61 @@ namespace BindingSample.ViewModels
                 };
 
                 ObservableCollection<EmployeeSafetyViewModel> detailVm = new ObservableCollection<EmployeeSafetyViewModel>();
-                foreach(Employee emp in team.Employees)
+                foreach (Employee emp in team.Employees)
                 {
                     detailVm.Add(new EmployeeSafetyViewModel(emp));
                 }
                 teamVm.EmployeeSafetyVms = detailVm;
 
+                teamVm.PropertyChanged += OnTeamPropertyChanged;
+
                 CheckedTeams.Add(teamVm);
             }
+        }
+
+        /// <summary>
+        /// チームの状態変更通知イベントハンドラ
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        private void OnTeamPropertyChanged(object sender, PropertyChangedEventArgs e)
+        {
+            ((Command)RegisterCommand).ChangeCanExecute();
+        }
+
+        /// <summary>
+        /// 登録可能な状態か判定する。
+        /// </summary>
+        /// <returns>true:登録可能</returns>
+        protected bool IsRegistable()
+        {
+            foreach (TeamViewModel team in CheckedTeams)
+            {
+                foreach (EmployeeSafetyViewModel saftyVm in team.EmployeeSafetyVms)
+                {
+                    if (saftyVm.IsEditedStatus)
+                    {
+                        // 表示中の安否情報のうち、
+                        // 一つでも安否状態が変更されたものがあれば登録可能とする。
+                        return true;
+                    }
+                }
+            }
+            return false;
+        }
+
+        /// <summary>
+        /// 保持データをクリアする。
+        /// </summary>
+        public void Clear()
+        {
+            CheckedDepartment.Value = null;
+            foreach(TeamViewModel team in CheckedTeams)
+            {
+                team.Clear();
+                team.PropertyChanged -= OnTeamPropertyChanged;
+            }
+            CheckedTeams.Clear();
         }
     }
 }

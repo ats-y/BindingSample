@@ -5,7 +5,7 @@ using Xamarin.Forms;
 
 namespace BindingSample.ViewModels
 {
-    public class EmployeeViewModel : BindableBase
+    public class EmployeeViewModel /*: BindableBase*/
     {
         public Employee Employee { get; set; }
 

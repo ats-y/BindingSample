@@ -25,13 +25,36 @@
         <views:DepartmentView
             BindingContext="{Binding CheckedDepartment.Value}"/>
 
-        <ScrollView>
+        <ScrollView
+            VerticalOptions="FillAndExpand">
             <views:TeamListView />
         </ScrollView>
 
-        <Label
-            Text="Welcome to Xamarin.Forms!"
-            HorizontalOptions="Center"
-            VerticalOptions="CenterAndExpand" />
+        <Grid
+            VerticalOptions="End"
+            BackgroundColor="LightGreen">
+            <Grid.RowDefinitions>
+                <RowDefinition
+                    Height="50"/>
+            </Grid.RowDefinitions>
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition
+                    Width="0.5*"/>
+
+                <ColumnDefinition
+                    Width="0.5*"/>
+            </Grid.ColumnDefinitions>
+            <Button
+                Grid.Row="0"
+                Grid.Column="0"
+                Text="クリア"/>
+
+            <Button
+                Grid.Row="0"
+                Grid.Column="1"
+                Command="{Binding RegisterCommand}"
+                Text="登録"/>
+        </Grid>
+
     </StackLayout>
 </ContentPage>

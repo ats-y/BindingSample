@@ -9,11 +9,29 @@ using Xamarin.Forms;
 
 namespace BindingSample.ViewModels
 {
+    /// <summary>
+    /// チーム表示用ViewModel
+    /// </summary>
     public class TeamViewModel : BindableBase
     {
+        /// <summary>
+        /// 表示対象のチーム情報
+        /// </summary>
         public Team Team { get; set; }
+
+        /// <summary>
+        /// チーム名。
+        /// </summary>
         public string Title { get => Team.Name; }
+
+        /// <summary>
+        /// 背景色。
+        /// </summary>
         public ReactiveProperty<Color> BackgroundColor { get; set; } = new ReactiveProperty<Color>();
+
+        /// <summary>
+        /// 社員安否情報ViewModel
+        /// </summary>
         protected ObservableCollection<EmployeeSafetyViewModel> _employeeSafetyVms = new ObservableCollection<EmployeeSafetyViewModel>();
         public ObservableCollection<EmployeeSafetyViewModel> EmployeeSafetyVms
         {
@@ -27,7 +45,7 @@ namespace BindingSample.ViewModels
                 {
                     foreach (EmployeeSafetyViewModel detail in _employeeSafetyVms)
                     {
-                        detail.PropertyChanged -= Detail_PropertyChanged;
+                        detail.PropertyChanged -= EmployeeSafetyVmPropertyChanged;
                     }
                 }
 
@@ -37,22 +55,25 @@ namespace BindingSample.ViewModels
                 {
                     foreach(EmployeeSafetyViewModel detail in _employeeSafetyVms)
                     {
-                        detail.PropertyChanged += Detail_PropertyChanged;
+                        detail.PropertyChanged += EmployeeSafetyVmPropertyChanged;
                     }
 
                     SetBackgroundColor();
+                    
                 }
             }
         }
 
-        private void Detail_PropertyChanged(object sender, PropertyChangedEventArgs e)
+        private void EmployeeSafetyVmPropertyChanged(object sender, PropertyChangedEventArgs e)
         {
             SetBackgroundColor();
+
+            RaisePropertyChanged(nameof(EmployeeSafetyVms));
         }
 
         private void SetBackgroundColor()
         {
-            if (EmployeeSafetyVms.All(x => x.Employee.Safety.Status == Safety.EStatus.Safe))
+            if (EmployeeSafetyVms.All(x => x.CurrentStatus == Safety.EStatus.Safe))
             {
                 BackgroundColor.Value = Color.Transparent;
             }
@@ -66,5 +87,12 @@ namespace BindingSample.ViewModels
         {
         }
 
+        internal void Clear()
+        {
+            foreach (EmployeeSafetyViewModel detail in _employeeSafetyVms)
+            {
+                detail.PropertyChanged -= EmployeeSafetyVmPropertyChanged;
+            }
+        }
     }
 }
