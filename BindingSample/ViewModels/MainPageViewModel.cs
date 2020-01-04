@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.ObjectModel;
 using System.ComponentModel;
+using System.Diagnostics;
 using System.Windows.Input;
 using BindingSample.Models;
 using Prism.Mvvm;
@@ -39,7 +40,7 @@ namespace BindingSample.ViewModels
 
         }
 
-        public void SetEmployeeNo(string input)
+        public void SetDepartmentNo(string input)
         {
             // ひとまず保持データを消去する。
             Clear();
@@ -77,6 +78,23 @@ namespace BindingSample.ViewModels
                 teamVm.PropertyChanged += OnTeamPropertyChanged;
 
                 CheckedTeams.Add(teamVm);
+            }
+        }
+
+        internal void SetEmployeeNo(string input)
+        {
+            Debug.WriteLine($"Input Employee No = [{input}]");
+
+            foreach( TeamViewModel teamVm in CheckedTeams)
+            {
+                foreach( EmployeeSafetyViewModel employeeSafetyVm in teamVm.EmployeeSafetyVms)
+                {
+                    if( employeeSafetyVm.Employee.Id.Equals(input))
+                    {
+                        MessagingCenter.Send(this, MessengerKeys.SCROLL_TO_EMPLOYEE, employeeSafetyVm.Employee.Id);
+                        return;
+                    }
+                }
             }
         }
 
@@ -123,6 +141,8 @@ namespace BindingSample.ViewModels
                 team.PropertyChanged -= OnTeamPropertyChanged;
             }
             CheckedTeams.Clear();
+
+            ((Command)RegisterCommand).ChangeCanExecute();
         }
     }
 }

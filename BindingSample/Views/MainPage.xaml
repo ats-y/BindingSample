@@ -11,23 +11,32 @@
 
     <ContentPage.Resources>
         <sys:Int32
-            x:Key="EMPLOYEE_NO_LENGTH">4</sys:Int32>
+            x:Key="DEPARTMENT_NO_LENGTH">4</sys:Int32>
+        <sys:Int32
+            x:Key="EMPLOYEE_NO_LENGTH">5</sys:Int32>
     </ContentPage.Resources>
 
     <StackLayout
         Padding="10,10,10,10">
 
         <Entry
-            Placeholder="社員番号を入力してください"
-            MaxLength="{StaticResource EMPLOYEE_NO_LENGTH}"
-            TextChanged="OnEmployeeTextChanged" />
+            Placeholder="部署番号を入力してください"
+            MaxLength="{StaticResource DEPARTMENT_NO_LENGTH}"
+            TextChanged="OnDepartmentNoTextChanged" />
 
         <views:DepartmentView
             BindingContext="{Binding CheckedDepartment.Value}"/>
 
+        <Entry
+            Placeholder="社員番号を入力してください"
+            MaxLength="{StaticResource EMPLOYEE_NO_LENGTH}"
+            TextChanged="OnEmployeeNoTextChanged" />
+
         <ScrollView
+            x:Name="TeamListScrollView"
             VerticalOptions="FillAndExpand">
-            <views:TeamListView />
+            <views:TeamListView
+                x:Name="TeamListViewElement"/>
         </ScrollView>
 
         <Grid

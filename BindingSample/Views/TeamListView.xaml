@@ -10,11 +10,13 @@
         <ResourceDictionary>
 
             <DataTemplate x:Key="multipleTemplate">
-                <views:TeamView/>
+                <views:TeamView
+                    x:Name="multipleTeamView"/>
             </DataTemplate>
 
             <DataTemplate x:Key="singleTemplate">
-                <views:TeamSingleView/>
+                <views:TeamSingleView
+                    x:Name="singleTeamView"/>
             </DataTemplate>
 
             <local:TeanTemplateSelector
@@ -31,6 +33,7 @@
             <Label
                 Text="チーム一覧" />
             <StackLayout
+                x:Name="TeamListStackLayout"
                 Orientation="Vertical"
                 BindableLayout.ItemTemplateSelector="{StaticResource teamTemplateSelector}"
                 BindableLayout.ItemsSource="{Binding CheckedTeams}">

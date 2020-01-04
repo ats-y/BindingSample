@@ -20,6 +20,7 @@
                     BackgroundColor="LightGray" />
 
                 <StackLayout
+                    x:Name="EmpList"
                     Orientation="Vertical"
                     BindableLayout.ItemsSource="{Binding EmployeeSafetyVms}">
                     <BindableLayout.ItemTemplate>
