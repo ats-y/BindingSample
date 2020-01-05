@@ -12,7 +12,7 @@ using Xamarin.Forms;
 
 namespace BindingSample.ViewModels
 {
-    public class MainPageViewModel : BindableBase
+    public class MainPageViewModel /*: BindableBase*/
     {
         /// <summary>
         /// 照合済み部署のViewModel。
