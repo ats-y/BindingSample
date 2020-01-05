@@ -5,19 +5,34 @@ using Xamarin.Forms;
 
 namespace BindingSample.ViewModels
 {
-    public class EmployeeViewModel /*: BindableBase*/
+    /// <summary>
+    /// 社員情報表示ViewModel。
+    /// </summary>
+    public class EmployeeViewModel
     {
+        /// <summary>
+        /// 対象社員情報。
+        /// </summary>
         public Employee Employee { get; set; }
 
+        /// <summary>
+        /// コンストラクタ。
+        /// </summary>
         public EmployeeViewModel()
         {
         }
 
+        /// <summary>
+        /// 表示用社員名。
+        /// </summary>
         public string DisplayName
         {
             get => $"{Employee.FamilyName} {Employee.GivenName}";
         }
 
+        /// <summary>
+        /// 表示用性別。
+        /// </summary>
         public string DisplaySex
         {
             get
@@ -33,6 +48,9 @@ namespace BindingSample.ViewModels
             }
         }
 
+        /// <summary>
+        /// 性別色。
+        /// </summary>
         public Color SexColor
         {
             get

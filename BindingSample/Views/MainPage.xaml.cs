@@ -32,17 +32,25 @@ namespace BindingSample.Views
         {
             base.OnAppearing();
 
-            MessagingCenter.Subscribe<MainPageViewModel, string>(this, MessengerKeys.SCROLL_TO_EMPLOYEE, ScrollToEmployee);
+            // スクロールメッセージのサ購読開始。
+            MessagingCenter.Subscribe<MainPageViewModel, string>(this, MessengerKeys.SCROLL_TO_EMPLOYEE
+                ,async (sender, employeeId) => await ScrollToEmployeeAsync(employeeId));
         }
 
         protected override void OnDisappearing()
         {
             base.OnDisappearing();
 
+            // スクロールメッセージの購読解除。
             MessagingCenter.Unsubscribe<MainPageViewModel, string>(this, MessengerKeys.SCROLL_TO_EMPLOYEE);
         }
 
-        private void ScrollToEmployee(MainPageViewModel sender, string employeeId)
+        /// <summary>
+        /// 指定した社員番号に該当するViewにスクロールする。
+        /// </summary>
+        /// <param name="employeeId"></param>
+        /// <returns></returns>
+        private async Task ScrollToEmployeeAsync(string employeeId)
         {
             Debug.WriteLine("ScrollToEmployee");
 
@@ -64,7 +72,8 @@ namespace BindingSample.Views
                             EmployeeSafetyViewModel empSafetyVm = emp.BindingContext as EmployeeSafetyViewModel;
                             if (empSafetyVm?.Employee.Id == employeeId)
                             {
-                                TeamListScrollView.ScrollToAsync(emp, ScrollToPosition.Start, true);
+                                await TeamListScrollView.ScrollToAsync(emp, ScrollToPosition.Start, true);
+                                Debug.WriteLine("finished scroll.");
                                 return;
                             }
                         }
@@ -78,7 +87,8 @@ namespace BindingSample.Views
                     TeamViewModel teamVm = teamSingleView.BindingContext as TeamViewModel;
                     if (teamVm?.EmployeeSafetyVms[0].Employee.Id == employeeId)
                     {
-                        TeamListScrollView.ScrollToAsync(teamView, ScrollToPosition.Start, true);
+                        await TeamListScrollView.ScrollToAsync(teamView, ScrollToPosition.Start, true);
+                        Debug.WriteLine("finished scroll.");
                         return;
                     }
                 }
@@ -89,6 +99,11 @@ namespace BindingSample.Views
             }
         }
 
+        /// <summary>
+        /// 部署番号のTextChangedイベントハンドラ。
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="args"></param>
         private void OnDepartmentNoTextChanged(object sender, TextChangedEventArgs args)
         {
             string input = args.NewTextValue;
@@ -102,6 +117,11 @@ namespace BindingSample.Views
             }
         }
 
+        /// <summary>
+        /// 社員番号のTextChangedイベントハンドラ。
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="args"></param>
         private void OnEmployeeNoTextChanged(object sender, TextChangedEventArgs args)
         {
             string input = args.NewTextValue;
