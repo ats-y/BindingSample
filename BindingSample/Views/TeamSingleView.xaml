@@ -45,6 +45,15 @@
                         FontSize="Micro"
                         Text="リアクティブなので変化する。" />
 
+                    <!--
+                    状態のアイコン表示
+                    StatusはBindingPropertyではないので{Binding ...}は使えない。
+                    DataTrigerとかはどうかな？
+                    -->
+                    <views:StatusIconView
+                        Status="Injury"
+                        HorizontalOptions="End" />
+
                     <Label
                         Text="{Binding EmployeeSafetyVms[0].CanWork}" />
 

@@ -1,0 +1,26 @@
+﻿<?xml version="1.0" encoding="UTF-8"?>
+
+<!-- 状態アイコンView -->
+<ContentView
+    xmlns="http://xamarin.com/schemas/2014/forms"
+    xmlns:d="http://xamarin.com/schemas/2014/forms/design"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+    mc:Ignorable="d"
+    x:Class="BindingSample.Views.StatusIconView">
+    <ContentView.Content>
+        <Frame
+            x:Name="Frame"
+            Padding="10"
+            BorderColor="Black"
+            BackgroundColor="IndianRed"
+            CornerRadius="10"
+            HasShadow="False">
+            <Label
+                x:Name="StatusText"
+                Text="実施済"
+                HorizontalOptions="Center"
+                VerticalOptions="Center"/>
+        </Frame>
+    </ContentView.Content>
+</ContentView>
